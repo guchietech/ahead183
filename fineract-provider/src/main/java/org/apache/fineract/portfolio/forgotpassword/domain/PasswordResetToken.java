@@ -21,13 +21,20 @@ package org.apache.fineract.portfolio.forgotpassword.domain;
 
 import java.util.Calendar;
 import java.util.Date;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import org.apache.fineract.infrastructure.core.domain.AbstractPersistableCustom;
 import org.apache.fineract.useradministration.domain.AppUser;
 
 @Entity
 @Table(name = "m_forgot_password")
-public class PasswordResetToken extends AbstractPersistableCustom<Long> {
+public class PasswordResetToken extends AbstractPersistableCustom {
 
     @Column(name = "token", nullable = false, unique = true, length = 100)
     private String token;

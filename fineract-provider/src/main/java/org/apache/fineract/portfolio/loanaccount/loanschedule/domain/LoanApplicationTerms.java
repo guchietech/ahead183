@@ -52,6 +52,8 @@ import org.apache.fineract.portfolio.loanproduct.domain.LoanPreClosureInterestCa
 import org.apache.fineract.portfolio.loanproduct.domain.LoanProductRelatedDetail;
 import org.apache.fineract.portfolio.loanproduct.domain.LoanRescheduleStrategyMethod;
 import org.apache.fineract.portfolio.loanproduct.domain.RecalculationFrequencyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Slf4j
 public final class LoanApplicationTerms {
@@ -208,6 +210,8 @@ public final class LoanApplicationTerms {
     private final BigDecimal fixedPrincipalPercentagePerInstallment;
 
     private LocalDate newScheduledDueDateStart;
+
+    private static final Logger log = LoggerFactory.getLogger(LoanApplicationTerms.class);
 
     public static LoanApplicationTerms assembleFrom(final ApplicationCurrency currency, final Integer loanTermFrequency,
             final PeriodFrequencyType loanTermPeriodFrequencyType, final Integer numberOfRepayments, final Integer repaymentEvery,

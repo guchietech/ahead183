@@ -16,17 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.apache.fineract.infrastructure.core.service;
 
-import org.apache.fineract.infrastructure.core.domain.EmailDetail;
+package org.apache.fineract.portfolio.forgotpassword.repository;
+
 import org.apache.fineract.portfolio.forgotpassword.domain.PasswordResetToken;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PlatformEmailService {
+@Repository
+public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
 
-    void sendToUserAccount(String organisationName, String contactName, String address, String username, String unencodedPassword);
-
-    void sendDefinedEmail(EmailDetail emailDetails);
-
-    void sendToResetPassword(String email, String contactName, String resetUrl, PasswordResetToken token);
+    PasswordResetToken findByToken(String token);
 
 }

@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.apache.fineract.infrastructure.configuration.data.SMTPCredentialsData;
 import org.apache.fineract.infrastructure.configuration.service.ExternalServicesPropertiesReadPlatformService;
 import org.apache.fineract.infrastructure.core.domain.EmailDetail;
+import org.apache.fineract.portfolio.forgotpassword.domain.PasswordResetToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -93,4 +94,17 @@ public class GmailBackedPlatformEmailService implements PlatformEmailService {
             throw new PlatformEmailSendException(e);
         }
     }
+
+    @Override
+    public void sendToResetPassword(String email, String contactName, String resetUrl, PasswordResetToken token) {
+
+        final String subject = "Password reset request";
+        final String body = "You are receiving this email as you want to reset your password."
+                + " Click the below link to reset the password within next 30 minutes. \n" + resetUrl + "/#/resetPassword?token="
+                + token.getToken();
+        final EmailDetail emailDetail = new EmailDetail(subject, body, email, contactName);
+        sendDefinedEmail(emailDetail);
+
+    }
+
 }

@@ -27,17 +27,17 @@ import java.text.DateFormatSymbols;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.UriInfo;
 import net.minidev.json.JSONObject;
-import org.apache.commons.lang.time.DateUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.fineract.accounting.journalentry.api.DateParam;
 import org.apache.fineract.infrastructure.configuration.domain.GlobalConfigurationProperty;
 import org.apache.fineract.infrastructure.configuration.domain.GlobalConfigurationRepositoryWrapper;
@@ -361,8 +361,13 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
 
         if (chartType.equalsIgnoreCase("collection")) {
             if (from != null && to != null) {
-                Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-                Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+                Instant instantToDate = to.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date toDate = java.util.Date.from(instantToDate);// ;
 
                 long difference_In_Time = fromDate.getTime() - toDate.getTime();
 
@@ -402,8 +407,15 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
         if (chartType.equalsIgnoreCase("Portfolio")) {
 
             if (from != null && to != null) {
-                Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-                Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date fromDate = java.util.Date.from(instantFromDate);// ;//instantFromDate.getDate("fromDate",
+                                                                     // SQL_DATEFORMAT, "en");
+
+                Instant instantToDate = to.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date toDate = java.util.Date.from(instantToDate);// ;//instantToDate.getDate("toDate", SQL_DATEFORMAT,
+                                                                 // "en");
                 // Date previousfrom = DateUtils.addDays(fromDate,-31);
                 // Date previousto = DateUtils.addDays(toDate,-1);
                 long difference_In_Time = fromDate.getTime() - toDate.getTime();
@@ -457,7 +469,7 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
                 newfromdate = new SimpleDateFormat("yyyy-MM-dd").parse(g);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                // e.printStackTrace();
             }
 
             LocalDate fromDate = LocalDate.parse(g);
@@ -486,13 +498,13 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
                 series.add(i, new BigDecimal(0));
             }
 
-            Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+            // Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
             for (BranchManagerDelinquencyData retrieveData : retrieveBranchManagerDelinquency) {
                 BigDecimal amount = retrieveData.getDelinquentamount();
                 retrieveData.getDisplayname();
-                LocalDate date = retrieveData.getDuedate();
+                java.time.LocalDate date = retrieveData.getDuedate();
                 if (date != null) {
-                    int month = date.getMonthOfYear();
+                    int month = date.getMonthValue();
 
                     BigDecimal previousAmount = series.get(month - 1);
                     BigDecimal totalAmount = previousAmount.add(amount);
@@ -546,8 +558,18 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
         if (chartType.equalsIgnoreCase("Customers")) {
 
             if (from != null && to != null) {
-                Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-                Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+                Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date fromDate = java.util.Date.from(instantFromDate);// ;//instantFromDate.getDate("fromDate",
+                                                                     // SQL_DATEFORMAT, "en");
+
+                // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date toDate = java.util.Date.from(instantToDate);// ;//instantFromDate.getDate("fromDate",
+                                                                 // SQL_DATEFORMAT, "en");
+
                 // Date previousfrom = DateUtils.addDays(fromDate,-31);
                 // Date previousto = DateUtils.addDays(toDate,-1);
                 long difference_In_Time = fromDate.getTime() - toDate.getTime();
@@ -589,8 +611,20 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             // .collect(Collectors.toList());
 
             if (from != null && to != null) {
-                Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-                Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+                Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date fromDate = java.util.Date.from(instantFromDate);// ;//instantFromDate.getDate("fromDate",
+                                                                     // SQL_DATEFORMAT, "en");
+
+                // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date toDate = java.util.Date.from(instantToDate);// ;//instantFromDate.getDate("fromDate",
+                                                                 // SQL_DATEFORMAT, "en");
+
+                // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+                // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
 
                 // Date previousfrom = DateUtils.addDays(fromDate,-31);
                 // Date previousto = DateUtils.addDays(toDate,-1);
@@ -635,8 +669,20 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             // loanOfficerPortfolioList = retrieveloanOfficerPortfolioForLanding(from,to).stream()
             // .collect(Collectors.toList());
             if (from != null && to != null) {
-                Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-                Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+                Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date fromDate = java.util.Date.from(instantFromDate);// ;//instantFromDate.getDate("fromDate",
+                                                                     // SQL_DATEFORMAT, "en");
+
+                // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+                Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault())
+                        .toInstant();
+                Date toDate = java.util.Date.from(instantToDate);// ;//instantFromDate.getDate("fromDate",
+                                                                 // SQL_DATEFORMAT, "en");
+
+                // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+                // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
                 // Date previousfrom = DateUtils.addDays(fromDate,-31);
                 // Date previousto = DateUtils.addDays(toDate,-1);
                 long difference_In_Time = fromDate.getTime() - toDate.getTime();
@@ -693,7 +739,7 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
                 newfromdate = new SimpleDateFormat("yyyy-MM-dd").parse(g);
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                // e.printStackTrace();
             }
 
             LocalDate fromDate = LocalDate.parse(g);
@@ -709,13 +755,13 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
                 series.add(i, new BigDecimal(0));
             }
 
-            Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
+            // Map<String, BigDecimal> map = new HashMap<String, BigDecimal>();
             for (LoanOfficerDelinquencyData retrieveData : loanOfficerDelinquencyList) {
                 BigDecimal amount = retrieveData.getDelinquentamount();
                 retrieveData.getDisplayname();
-                LocalDate date = retrieveData.getDuedate();
+                java.time.LocalDate date = retrieveData.getDuedate();
                 if (date != null) {
-                    int month = date.getMonthOfYear();
+                    int month = date.getMonthValue();
 
                     BigDecimal previousAmount = series.get(month - 1);
                     BigDecimal totalAmount = previousAmount.add(amount);
@@ -957,7 +1003,8 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final String displayname = rs.getString("displayname");
             final BigDecimal delinquentamount = JdbcSupport.getBigDecimalDefaultToZeroIfNull(rs, "delinquentamount");
             // final Date duedate = rs.getDate("duedate");
-            final org.joda.time.LocalDate duedate = JdbcSupport.getLocalDate(rs, "duedate");
+            // final org.joda.time.LocalDate duedate = JdbcSupport.getLocalDate(rs, "duedate");
+            final java.time.LocalDate duedate = JdbcSupport.getLocalDate(rs, "duedate");
             return new BranchManagerDelinquencyData(displayname, delinquentamount, duedate);
         }
     }
@@ -968,7 +1015,7 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
         public LoanOfficerDelinquencyData mapRow(final ResultSet rs, @SuppressWarnings("unused") final int rowNum) throws SQLException {
             final String displayname = rs.getString("displayname");
             final BigDecimal delinquentamount = JdbcSupport.getBigDecimalDefaultToZeroIfNull(rs, "delinquentamount");
-            final org.joda.time.LocalDate duedate = JdbcSupport.getLocalDate(rs, "duedate");
+            final java.time.LocalDate duedate = JdbcSupport.getLocalDate(rs, "duedate");
             return new LoanOfficerDelinquencyData(displayname, delinquentamount, duedate);
         }
     }
@@ -1222,8 +1269,15 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final Long branchId) {
         final ViewManagerCollectionMapper mapper = new ViewManagerCollectionMapper();
         String sql = View_Branch_Manager_collected;
-        Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-        Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+        // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+        Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date toDate = java.util.Date.from(instantToDate);// ;
 
         return this.jdbcTemplate.query(sql, mapper, fromDate, toDate, branchId);
 
@@ -1247,8 +1301,14 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final Long branchId) {
         final ViewManagerPortfolioMapper mapper = new ViewManagerPortfolioMapper();
         String sql = View_Branch_Manager_Portfolio;
-        Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-        Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+        // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+        // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+        Instant instanttoDate = from.getDate("toDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date toDate = java.util.Date.from(instanttoDate);// ;
 
         return this.jdbcTemplate.query(sql, mapper, fromDate, toDate, branchId);
 
@@ -1273,8 +1333,14 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final Long officerId) {
         final ViewOfficerPortfolioMapper mapper = new ViewOfficerPortfolioMapper();
         String sql = View_Officer_Portfolio;
-        Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-        Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+        // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+        // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+        Instant instanttoDate = from.getDate("toDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date toDate = java.util.Date.from(instanttoDate);// ;
 
         return this.jdbcTemplate.query(sql, mapper, fromDate, toDate, officerId);
 
@@ -1299,8 +1365,15 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final Long officerId) {
         final ViewOfficerCollectionMapper mapper = new ViewOfficerCollectionMapper();
         String sql = View_Officer_Collection;
-        Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-        Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+        // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+
+        Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+        Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date toDate = java.util.Date.from(instantToDate);// ;
 
         return this.jdbcTemplate.query(sql, mapper, fromDate, toDate, officerId);
 
@@ -1325,8 +1398,14 @@ public class DashboardReadPlatformServiceImpl implements DashboardReadPlatformSe
             final Long officerId) {
         final ViewOfficerCustomersMapper mapper = new ViewOfficerCustomersMapper();
         String sql = View_Loan_Officer_Customers;
-        Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
-        Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
+        Instant instantFromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date fromDate = java.util.Date.from(instantFromDate);// ;
+
+        Instant instantToDate = from.getDate("fromDate", SQL_DATEFORMAT, "en").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        Date toDate = java.util.Date.from(instantToDate);// ;
+
+        // Date fromDate = from.getDate("fromDate", SQL_DATEFORMAT, "en");
+        // Date toDate = to.getDate("toDate", SQL_DATEFORMAT, "en");
 
         return this.jdbcTemplate.query(sql, mapper, fromDate, toDate, officerId);
 

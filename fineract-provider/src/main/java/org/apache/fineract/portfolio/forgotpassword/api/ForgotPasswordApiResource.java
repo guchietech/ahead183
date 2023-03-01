@@ -35,7 +35,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.fineract.commands.service.PortfolioCommandSourceWritePlatformService;
 import org.apache.fineract.infrastructure.core.api.ApiRequestParameterHelper;
 import org.apache.fineract.infrastructure.core.serialization.ApiRequestJsonSerializationSettings;
@@ -129,7 +129,7 @@ public class ForgotPasswordApiResource {
                 URL aURL = new URL(uri);
                 url = aURL.getProtocol() + "://" + aURL.getAuthority() + "/";
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                // e.printStackTrace();
             }
 
             emailService.sendToResetPassword(appUser.getEmail(), appUser.getFirstname(), url, token);
@@ -185,7 +185,9 @@ public class ForgotPasswordApiResource {
 
         if (passWordEncodedValue != null) {
 
-            PageRequest pageRequest = new PageRequest(0, AppUserApiConstant.numberOfPreviousPasswords, Sort.Direction.DESC, "removalDate");
+            // PageRequest pageRequest = new PageRequest(0, AppUserApiConstant.numberOfPreviousPasswords,
+            // Sort.Direction.DESC, "removalDate");
+            PageRequest pageRequest = PageRequest.of(0, AppUserApiConstant.numberOfPreviousPasswords, Sort.by("removalDate"));
 
             final List<AppUserPreviousPassword> nLastUsedPasswords = appUserPreviewPasswordRepository.findByUserId(user.getId(),
                     pageRequest);

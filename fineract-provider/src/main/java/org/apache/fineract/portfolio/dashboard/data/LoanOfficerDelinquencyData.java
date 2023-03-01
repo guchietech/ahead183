@@ -20,7 +20,7 @@
 package org.apache.fineract.portfolio.dashboard.data;
 
 import java.math.BigDecimal;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 
 @SuppressWarnings("unused")
 public class LoanOfficerDelinquencyData {

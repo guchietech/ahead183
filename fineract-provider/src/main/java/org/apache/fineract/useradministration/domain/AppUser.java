@@ -53,6 +53,8 @@ import org.apache.fineract.organisation.office.domain.Office;
 import org.apache.fineract.organisation.staff.domain.Staff;
 import org.apache.fineract.portfolio.client.domain.Client;
 import org.apache.fineract.useradministration.service.AppUserConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -121,6 +123,8 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
 
     @Column(name = "cannot_change_password", nullable = true)
     private Boolean cannotChangePassword;
+
+    private static final Logger log = LoggerFactory.getLogger(AppUser.class);
 
     public static AppUser fromJson(final Office userOffice, final Staff linkedStaff, final Set<Role> allRoles,
             final Collection<Client> clients, final JsonCommand command) {
@@ -725,4 +729,13 @@ public class AppUser extends AbstractPersistableCustom implements PlatformUser {
     public String toString() {
         return "AppUser [username=" + this.username + ", getId()=" + this.getId() + "]";
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

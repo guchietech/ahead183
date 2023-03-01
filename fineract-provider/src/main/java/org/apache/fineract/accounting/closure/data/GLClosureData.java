@@ -46,4 +46,8 @@ public class GLClosureData {
     private final String comments;
 
     private Collection<OfficeData> allowedOffices = new ArrayList<>();
+
+    public void setAllowedOffices(Collection<OfficeData> officeData) {
+        this.allowedOffices = officeData;
+    }
 }
