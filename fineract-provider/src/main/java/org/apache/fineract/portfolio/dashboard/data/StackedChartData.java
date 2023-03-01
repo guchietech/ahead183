@@ -18,48 +18,35 @@
  */
 package org.apache.fineract.portfolio.dashboard.data;
 
-import org.apache.fineract.infrastructure.codes.data.CodeValueData;
-import org.apache.fineract.organisation.monetary.data.CurrencyData;
-import org.apache.fineract.portfolio.loanaccount.data.RepaymentScheduleRelatedLoanData;
-import org.joda.time.LocalDate;
-
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
- * Immutable data object represent the important time-line events of a loan
- * application and loan.
+ * Immutable data object represent the important time-line events of a loan application and loan.
  */
 @SuppressWarnings("unused")
 public class StackedChartData {
 
-    
     private final BigDecimal activeCustomers;
     private final BigDecimal nonActiveCustomer;
     private final BigDecimal nonFundedCustomer;
-   
-    public StackedChartData(final BigDecimal activeCustomers, final BigDecimal nonActiveCustomer,
-    		final BigDecimal nonFundedCustomer) {
-		this.activeCustomers = activeCustomers;
-		this.nonActiveCustomer = nonActiveCustomer;
-		this.nonFundedCustomer = nonFundedCustomer;
-		
-	}
 
-	public BigDecimal getActiveCustomers() {
-		return activeCustomers;
-	}
+    public StackedChartData(final BigDecimal activeCustomers, final BigDecimal nonActiveCustomer, final BigDecimal nonFundedCustomer) {
+        this.activeCustomers = activeCustomers;
+        this.nonActiveCustomer = nonActiveCustomer;
+        this.nonFundedCustomer = nonFundedCustomer;
 
-	public BigDecimal getNonActiveCustomer() {
-		return nonActiveCustomer;
-	}
+    }
 
-	public BigDecimal getNonFundedCustomer() {
-		return nonFundedCustomer;
-	}
+    public BigDecimal getActiveCustomers() {
+        return activeCustomers;
+    }
 
-    
+    public BigDecimal getNonActiveCustomer() {
+        return nonActiveCustomer;
+    }
+
+    public BigDecimal getNonFundedCustomer() {
+        return nonFundedCustomer;
+    }
+
 }
