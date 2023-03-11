@@ -20,17 +20,19 @@
 package org.apache.fineract.portfolio.dashboard.data;
 
 import java.math.BigDecimal;
+
 @SuppressWarnings("unused")
 public class BranchManagerPortfolioData {
-	 
-	    private final BigDecimal amount;
-	   
-	    public BranchManagerPortfolioData(final BigDecimal amount) {
-			this.amount = amount;
-			
-		}
-		public BigDecimal getAmount() {
-			return amount;
-		}
-	    
+
+    private final BigDecimal amount;
+
+    public BranchManagerPortfolioData(final BigDecimal amount) {
+        this.amount = amount;
+
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
 }

@@ -20,38 +20,35 @@
 package org.apache.fineract.portfolio.dashboard.data;
 
 import java.math.BigDecimal;
-
 import org.joda.time.LocalDate;
+
 @SuppressWarnings("unused")
 public class LoanOfficerDelinquencyData {
-	 private final String displayname;
-	    private final BigDecimal delinquentamount;
-	    private LocalDate duedate;
-	   
-	    public LoanOfficerDelinquencyData(final String displayname, final BigDecimal delinquentamount,final LocalDate duedate) {
-			this.displayname = displayname;
-			this.delinquentamount = delinquentamount;
-			this.duedate = duedate; 
-		}
 
+    private final String displayname;
+    private final BigDecimal delinquentamount;
+    private LocalDate duedate;
 
-		public String getDisplayname() {
-			return displayname;
-		}
+    public LoanOfficerDelinquencyData(final String displayname, final BigDecimal delinquentamount, final LocalDate duedate) {
+        this.displayname = displayname;
+        this.delinquentamount = delinquentamount;
+        this.duedate = duedate;
+    }
 
+    public String getDisplayname() {
+        return displayname;
+    }
 
-		public BigDecimal getDelinquentamount() {
-			return delinquentamount;
-		}
+    public BigDecimal getDelinquentamount() {
+        return delinquentamount;
+    }
 
+    public LocalDate getDuedate() {
+        return duedate;
+    }
 
-		public LocalDate getDuedate() {
-			return duedate;
-		}
+    public void setDuedate(LocalDate duedate) {
+        this.duedate = duedate;
+    }
 
-
-		public void setDuedate(LocalDate duedate) {
-			this.duedate = duedate;
-		}
-	    
 }

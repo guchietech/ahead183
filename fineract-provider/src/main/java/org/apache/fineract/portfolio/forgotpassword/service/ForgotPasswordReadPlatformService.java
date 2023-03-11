@@ -24,6 +24,6 @@ import org.apache.fineract.portfolio.forgotpassword.domain.PasswordResetToken;
 
 public interface ForgotPasswordReadPlatformService {
 
-	Collection<PasswordResetToken> retrieveData();
+    Collection<PasswordResetToken> retrieveData();
 
 }

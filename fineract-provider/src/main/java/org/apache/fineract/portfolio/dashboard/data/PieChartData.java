@@ -18,42 +18,29 @@
  */
 package org.apache.fineract.portfolio.dashboard.data;
 
-import org.apache.fineract.infrastructure.codes.data.CodeValueData;
-import org.apache.fineract.organisation.monetary.data.CurrencyData;
-import org.apache.fineract.portfolio.loanaccount.data.RepaymentScheduleRelatedLoanData;
-import org.joda.time.LocalDate;
-
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 /**
- * Immutable data object represent the important time-line events of a loan
- * application and loan.
+ * Immutable data object represent the important time-line events of a loan application and loan.
  */
 @SuppressWarnings("unused")
 public class PieChartData {
 
-    
     private final String xaxis;
     private final BigDecimal yaxis;
-   
+
     public PieChartData(final String xaxis, final BigDecimal yaxis) {
-		this.xaxis = xaxis;
-		this.yaxis = yaxis;
-		
-	}
+        this.xaxis = xaxis;
+        this.yaxis = yaxis;
 
+    }
 
-	public String getXaxis() {
-		return xaxis;
-	}
+    public String getXaxis() {
+        return xaxis;
+    }
 
+    public BigDecimal getYaxis() {
+        return yaxis;
+    }
 
-	public BigDecimal getYaxis() {
-		return yaxis;
-	}
-    
 }
