@@ -42,5 +42,5 @@
     <include file="parts/0020_add_audit_entries.xml" relativeToChangelogFile="true"/>
     <include file="parts/0026_reversals_for_reversed_transactions.xml" relativeToChangelogFile="true"/>
     <include file="parts/0027_forgot_password_table.xml" relativeToChangelogFile="true"/>
-    <include file="parts/0028_delinquent_days_configuration.xml" relativeToChangelogFile="true"/>
+   <!-- <include file="parts/0028_delinquent_days_configuration.xml" relativeToChangelogFile="true"/>-->
 </databaseChangeLog>

@@ -21,11 +21,13 @@ package org.apache.fineract.portfolio.forgotpassword.repository;
 
 import org.apache.fineract.portfolio.forgotpassword.domain.PasswordResetToken;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
-@Repository
-public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long> {
+public interface PasswordResetTokenRepository
+        extends JpaRepository<PasswordResetToken, Long>, JpaSpecificationExecutor<PasswordResetToken> {
 
+    @Query("Select passwordResetToken from PasswordResetToken passwordResetToken where passwordResetToken.token = :token")
     PasswordResetToken findByToken(String token);
 
 }

@@ -36,16 +36,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.fineract.commands.service.PortfolioCommandSourceWritePlatformService;
 import org.apache.fineract.infrastructure.core.api.ApiRequestParameterHelper;
 import org.apache.fineract.infrastructure.core.serialization.ApiRequestJsonSerializationSettings;
 import org.apache.fineract.infrastructure.core.serialization.DefaultToApiJsonSerializer;
 import org.apache.fineract.infrastructure.core.service.PlatformEmailService;
 import org.apache.fineract.infrastructure.security.service.PlatformPasswordEncoder;
-import org.apache.fineract.infrastructure.security.service.PlatformSecurityContext;
-import org.apache.fineract.organisation.office.service.OfficeReadPlatformService;
 import org.apache.fineract.portfolio.forgotpassword.domain.PasswordResetToken;
-import org.apache.fineract.portfolio.forgotpassword.repository.PasswordResetTokenRepository;
 import org.apache.fineract.useradministration.api.AppUserApiConstant;
 import org.apache.fineract.useradministration.data.AppUserData;
 import org.apache.fineract.useradministration.domain.AppUser;
@@ -53,7 +49,6 @@ import org.apache.fineract.useradministration.domain.AppUserPreviousPassword;
 import org.apache.fineract.useradministration.domain.AppUserPreviousPasswordRepository;
 import org.apache.fineract.useradministration.domain.AppUserRepository;
 import org.apache.fineract.useradministration.exception.PasswordPreviouslyUsedException;
-import org.apache.fineract.useradministration.service.AppUserReadPlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
@@ -77,31 +72,29 @@ public class ForgotPasswordApiResource {
             Arrays.asList("id", "token", "userId", "expiryDate", "isExpired"));
 
     private final DefaultToApiJsonSerializer<AppUser> toApiJsonSerializer;
-    private final DefaultToApiJsonSerializer<PasswordResetToken> toApiJsonTokenSerializer;
     private final ApiRequestParameterHelper apiRequestParameterHelper;
     private final AppUserRepository appUserRepository;
     private final PlatformEmailService emailService;
-    private final PasswordResetTokenRepository tokenRepository;
-    private final AppUserPreviousPasswordRepository appUserPreviewPasswordRepository;
+    private final DefaultToApiJsonSerializer<PasswordResetToken> toApiJsonTokenSerializer;
     private final PlatformPasswordEncoder applicationPasswordEncoder;
+    private final AppUserPreviousPasswordRepository appUserPreviewPasswordRepository;
+    // private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
-    public ForgotPasswordApiResource(final PlatformSecurityContext context, final AppUserReadPlatformService readPlatformService,
-            final OfficeReadPlatformService officeReadPlatformService, final DefaultToApiJsonSerializer<AppUser> toApiJsonSerializer,
-            final ApiRequestParameterHelper apiRequestParameterHelper,
-            final PortfolioCommandSourceWritePlatformService commandsSourceWritePlatformService, final AppUserRepository appUserRepository,
-            final PlatformEmailService emailService, final PasswordResetTokenRepository tokenRepository,
-            final DefaultToApiJsonSerializer<PasswordResetToken> toApiJsonTokenSerializer,
+    public ForgotPasswordApiResource(final DefaultToApiJsonSerializer<AppUser> toApiJsonSerializer,
+            final ApiRequestParameterHelper apiRequestParameterHelper, final AppUserRepository appUserRepository,
+            final PlatformEmailService emailService, final DefaultToApiJsonSerializer<PasswordResetToken> toApiJsonTokenSerializer,
             final PlatformPasswordEncoder applicationPasswordEncoder,
             final AppUserPreviousPasswordRepository appUserPreviewPasswordRepository) {
+        // final PasswordResetTokenRepository passwordResetTokenRepository) {
         this.toApiJsonSerializer = toApiJsonSerializer;
         this.apiRequestParameterHelper = apiRequestParameterHelper;
         this.appUserRepository = appUserRepository;
         this.emailService = emailService;
-        this.tokenRepository = tokenRepository;
         this.toApiJsonTokenSerializer = toApiJsonTokenSerializer;
         this.applicationPasswordEncoder = applicationPasswordEncoder;
         this.appUserPreviewPasswordRepository = appUserPreviewPasswordRepository;
+        // this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     @GET
@@ -117,7 +110,7 @@ public class ForgotPasswordApiResource {
             token.setToken(UUID.randomUUID().toString());
             token.setUser(appUser);
             token.setExpiryDate(30);
-            tokenRepository.save(token);
+            // this.passwordResetTokenRepository.save(token);
 
             // String url = "https://localhost:8443/#";//
             // RegistrationApiConstants.HTTP_HTTPS+ThreadLocalContextUtil.getTenant().getTenantIdentifier()+RegistrationApiConstants.DOT
@@ -145,7 +138,7 @@ public class ForgotPasswordApiResource {
 
         final ApiRequestJsonSerializationSettings settings = this.apiRequestParameterHelper.process(uriInfo.getQueryParameters());
 
-        PasswordResetToken resetToken = this.tokenRepository.findByToken(token);
+        PasswordResetToken resetToken = new PasswordResetToken(); // this.passwordResetTokenRepository.findByToken(token);
 
         if (resetToken.isExpired()) {
             resetToken = null;
